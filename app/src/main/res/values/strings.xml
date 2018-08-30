@@ -3,4 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_more">More</string>
+    <string name="title_movie">Movie</string>
+    <string name="title_genre">Genre</string>
+    <string name="title_search">Search</string>
 </resources>
