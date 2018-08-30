@@ -63,6 +63,28 @@ public class MainViewModel extends BaseViewModel implements
         return false;
     }
 
+    public void addFragment(Fragment fragment, boolean isAddToBackStack) {
+        popBackStackImmediate();
+        if (isAddToBackStack) {
+            mFragmentManager.beginTransaction()
+                    .add(R.id.frame_container, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            mFragmentManager.beginTransaction()
+                    .add(R.id.frame_container, fragment)
+                    .commit();
+        }
+        mCurrentFragment = fragment;
+    }
+
+    private void popBackStackImmediate() {
+        int c = mFragmentManager.getBackStackEntryCount();
+        if (c > 0) {
+            mFragmentManager.popBackStackImmediate();
+        }
+    }
+
     private void initFragment() {
         mFragmentManager.beginTransaction()
                 .add(R.id.frame_container, mHomeFragment)
@@ -77,6 +99,7 @@ public class MainViewModel extends BaseViewModel implements
     }
 
     private void showFragment(Fragment fShow, Fragment fHide) {
+        popBackStackImmediate();
         mFragmentManager.beginTransaction().hide(fHide).show(fShow).commit();
     }
 }
