@@ -35,7 +35,7 @@ public class Movie implements Serializable {
     private String mReleaseDate;
     @SerializedName("genres")
     @Expose
-    private List<Gerne> mGernes;
+    private List<Genre> mGenres;
     @SerializedName("production_companies")
     @Expose
     private List<Company> mCompanies;
@@ -63,7 +63,7 @@ public class Movie implements Serializable {
         mBackdropPath = builder.mBackdropPath;
         mOverview = builder.mOverview;
         mReleaseDate = builder.mReleaseDate;
-        mGernes = builder.mGernes;
+        mGenres = builder.mGenres;
         mCompanies = builder.mCompanies;
         mCountries = builder.mCountries;
         mLanguages = builder.mLanguages;
@@ -100,8 +100,8 @@ public class Movie implements Serializable {
         return mReleaseDate;
     }
 
-    public List<Gerne> getGernes() {
-        return mGernes;
+    public List<Genre> getGenres() {
+        return mGenres;
     }
 
     public List<Company> getCompanies() {
@@ -137,7 +137,7 @@ public class Movie implements Serializable {
         private String mBackdropPath;
         private String mOverview;
         private String mReleaseDate;
-        private List<Gerne> mGernes;
+        private List<Genre> mGenres;
         private List<Company> mCompanies;
         private List<Country> mCountries;
         private List<Language> mLanguages;
@@ -188,8 +188,8 @@ public class Movie implements Serializable {
             return this;
         }
 
-        public Builder setGernes(List<Gerne> gernes) {
-            mGernes = gernes;
+        public Builder setGenres(List<Genre> genres) {
+            mGenres = genres;
             return this;
         }
 

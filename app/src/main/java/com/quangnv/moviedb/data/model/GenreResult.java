@@ -14,13 +14,13 @@ public class GenreResult implements Serializable {
 
     @SerializedName("genres")
     @Expose
-    private List<Gerne> mGernes;
+    private List<Genre> mGenres;
 
-    public List<Gerne> getGernes() {
-        return mGernes;
+    public List<Genre> getGenres() {
+        return mGenres;
     }
 
-    public void setGernes(List<Gerne> gernes) {
-        mGernes = gernes;
+    public void setGenres(List<Genre> genres) {
+        mGenres = genres;
     }
 }
