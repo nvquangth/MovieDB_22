@@ -6,4 +6,8 @@
     <string name="title_movie">Movie</string>
     <string name="title_genre">Genre</string>
     <string name="title_search">Search</string>
+    <string name="title_now_playing">Now playing</string>
+    <string name="title_upcoming">Upcoming</string>
+    <string name="title_popular">Popular</string>
+    <string name="title_top_rate">Top rate</string>
 </resources>
