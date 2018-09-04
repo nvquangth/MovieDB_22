@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by quangnv on 31/08/2018
  */
 
-public class Gerne implements Serializable {
+public class Genre implements Serializable {
 
     @SerializedName("id")
     @Expose
