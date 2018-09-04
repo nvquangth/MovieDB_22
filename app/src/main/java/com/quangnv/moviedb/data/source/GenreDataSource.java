@@ -1,7 +1,7 @@
 package com.quangnv.moviedb.data.source;
 
-import com.quangnv.moviedb.data.model.GenreResult;
 import com.quangnv.moviedb.data.model.Genre;
+import com.quangnv.moviedb.data.model.GenreResult;
 
 import java.util.List;
 
@@ -17,11 +17,11 @@ public interface GenreDataSource {
 
         void saveGenre(Genre genre);
 
-        void deleteGenres(Genre genre);
+        void deleteGenre(Genre genre);
 
         void deleteAllGenres();
 
-        List<Genre> getGenres();
+        List<Genre> getAllGenres();
 
         Genre getGenre(int genreId);
     }

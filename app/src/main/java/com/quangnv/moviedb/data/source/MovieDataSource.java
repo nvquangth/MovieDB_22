@@ -19,7 +19,7 @@ public interface MovieDataSource {
 
         void deleteMovie(Movie movie);
 
-        void deleteAllMovie();
+        void deleteAllMovies();
 
         List<Movie> getMovies();
 
@@ -36,7 +36,7 @@ public interface MovieDataSource {
 
         Observable<MovieResult> getNowPlaying(int page);
 
-        Observable<Movie> getMovie(int movieId);
+        Observable<Movie> getMovieDetail(int movieId);
 
         Observable<MovieResult> searchMoviesByTitle(int page, String title);
 
@@ -44,7 +44,7 @@ public interface MovieDataSource {
 
         Observable<MovieResult> searchMoviesByGenre(int page, int genreId);
 
-        Observable<MovieResult> searchMoviesByGenres(int page, int...genreIds);
+        Observable<MovieResult> searchMoviesByGenres(int page, int... genreIds);
 
         Observable<MovieResult> getRecommend(int page, int movieId);
     }
