@@ -10,4 +10,6 @@
     <string name="title_upcoming">Upcoming</string>
     <string name="title_popular">Popular</string>
     <string name="title_top_rate">Top rate</string>
+    <string name="title_go">Go</string>
+    <string name="noti_choose_genres">Please choose any genres</string>
 </resources>

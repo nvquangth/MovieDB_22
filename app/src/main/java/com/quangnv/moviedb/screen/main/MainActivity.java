@@ -11,11 +11,12 @@ import com.quangnv.moviedb.data.model.Movie;
 import com.quangnv.moviedb.databinding.ActivityMainBinding;
 import com.quangnv.moviedb.screen.ItemMovieNavigator;
 import com.quangnv.moviedb.screen.ToolbarNavigator;
+import com.quangnv.moviedb.screen.genre.GenreNavigator;
 import com.quangnv.moviedb.screen.movie.MovieNavigator;
 import com.quangnv.moviedb.screen.moviedetail.MovieDetailActivity;
 
 public class MainActivity extends AppCompatActivity implements MovieNavigator, ItemMovieNavigator,
-        ToolbarNavigator {
+        ToolbarNavigator, GenreNavigator {
 
     public static final String EXTRA_MOVIE = "EXTRA_MOVIE";
     private MainViewModel mViewModel;
