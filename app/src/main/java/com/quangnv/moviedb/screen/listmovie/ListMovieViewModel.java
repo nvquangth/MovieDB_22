@@ -22,6 +22,7 @@ public abstract class ListMovieViewModel extends BaseViewModel
     protected MovieRepository mRepository;
     protected SchedulerProvider mSchedulerProvider;
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    protected int mPage = 1;
 
     public ListMovieViewModel(Context context, MovieRepository repository, MovieAdapter adapter) {
         mContext = context;
@@ -32,7 +33,7 @@ public abstract class ListMovieViewModel extends BaseViewModel
 
     @Override
     protected void onStart() {
-        callApiGetListMovies();
+        callApiGetListMovies(mPage);
     }
 
     @Override
@@ -59,5 +60,5 @@ public abstract class ListMovieViewModel extends BaseViewModel
 
     public abstract String getTitleToolbar();
 
-    protected abstract void callApiGetListMovies();
+    protected abstract void callApiGetListMovies(int page);
 }
