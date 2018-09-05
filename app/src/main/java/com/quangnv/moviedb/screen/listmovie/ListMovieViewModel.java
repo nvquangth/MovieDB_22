@@ -6,6 +6,7 @@ import com.quangnv.moviedb.R;
 import com.quangnv.moviedb.data.model.Movie;
 import com.quangnv.moviedb.data.repository.MovieRepository;
 import com.quangnv.moviedb.screen.BaseViewModel;
+import com.quangnv.moviedb.screen.ItemMovieNavigator;
 import com.quangnv.moviedb.util.rx.SchedulerProvider;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -17,6 +18,7 @@ import io.reactivex.disposables.CompositeDisposable;
 public abstract class ListMovieViewModel extends BaseViewModel
         implements MovieAdapter.ItemMovieListener {
 
+    private ItemMovieNavigator mItemMovieNavigator;
     protected Context mContext;
     protected MovieAdapter mMovieAdapter;
     protected MovieRepository mRepository;
@@ -43,11 +45,15 @@ public abstract class ListMovieViewModel extends BaseViewModel
 
     @Override
     public void onItemMovieClick(Movie movie) {
-
+        mItemMovieNavigator.onOpenMovieDetail(movie);
     }
 
     public void setSchedulerProvider(SchedulerProvider schedulerProvider) {
         mSchedulerProvider = schedulerProvider;
+    }
+
+    public void setItemMovieNavigator(ItemMovieNavigator itemMovieNavigator) {
+        mItemMovieNavigator = itemMovieNavigator;
     }
 
     public MovieAdapter getAdapter() {
