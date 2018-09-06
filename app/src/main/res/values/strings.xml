@@ -12,4 +12,9 @@
     <string name="title_top_rate">Top rate</string>
     <string name="title_go">Go</string>
     <string name="noti_choose_genres">Please choose any genres</string>
+    <string name="title_des">Descriptions</string>
+    <string name="title_cast">Casts</string>
+    <string name="title_review">Reviews</string>
+    <string name="title_recommend">Recommends</string>
+    <string name="title_read_more">Read more</string>
 </resources>

@@ -1,11 +1,11 @@
 package com.quangnv.moviedb.screen.moviedetail;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
+import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.quangnv.moviedb.R;
 
-public class MovieDetailActivity extends AppCompatActivity {
+public class MovieDetailActivity extends YouTubeBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
