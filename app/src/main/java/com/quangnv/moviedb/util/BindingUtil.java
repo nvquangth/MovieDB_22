@@ -46,6 +46,12 @@ public final class BindingUtil {
         recyclerView.setAdapter(adapter);
     }
 
+    @BindingAdapter({"recyclerLayoutManager"})
+    public static void setLayoutManager(RecyclerView recyclerView,
+                                        RecyclerView.LayoutManager layoutManager) {
+        recyclerView.setLayoutManager(layoutManager);
+    }
+
     @BindingAdapter({"imageUrl"})
     public static void setImage(ImageView imageView, String url) {
         GlideApp.with(imageView.getContext())
