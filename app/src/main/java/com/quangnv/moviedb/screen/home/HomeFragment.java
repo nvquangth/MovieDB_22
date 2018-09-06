@@ -1,5 +1,6 @@
 package com.quangnv.moviedb.screen.home;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.quangnv.moviedb.R;
 import com.quangnv.moviedb.databinding.FragmentHomeBinding;
+import com.quangnv.moviedb.screen.ActionSearchNavigator;
 import com.quangnv.moviedb.screen.BaseFragment;
 
 /**
@@ -23,6 +25,15 @@ import com.quangnv.moviedb.screen.BaseFragment;
 public class HomeFragment extends BaseFragment {
 
     private HomeViewModel mViewModel;
+    private ActionSearchNavigator mSearchNavigator;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (getActivity() instanceof ActionSearchNavigator) {
+            mSearchNavigator = (ActionSearchNavigator) getActivity();
+        }
+    }
 
     @Nullable
     @Override
@@ -39,6 +50,12 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
+    public void onDestroy() {
+        mSearchNavigator = null;
+        super.onDestroy();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search, menu);
         super.onCreateOptionsMenu(menu, inflater);
@@ -48,6 +65,7 @@ public class HomeFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navigation_search:
+                mSearchNavigator.onSearchClick();
                 return true;
         }
         return super.onOptionsItemSelected(item);

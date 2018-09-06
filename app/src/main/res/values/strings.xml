@@ -17,4 +17,6 @@
     <string name="title_review">Reviews</string>
     <string name="title_recommend">Recommends</string>
     <string name="title_read_more">Read more</string>
+    <string name="hint_search_movie">Enter movie\'s title</string>
+    <string name="noti_data_not_available">Data not available</string>
 </resources>
