@@ -10,6 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
+import com.quangnv.moviedb.BuildConfig;
 import com.quangnv.moviedb.util.common.StringUtil;
 
 /**
@@ -72,5 +75,13 @@ public final class BindingUtil {
     @BindingAdapter({"iconToolbar"})
     public static void setIcon(Toolbar toolbar, int resId) {
         toolbar.setNavigationIcon(resId);
+    }
+
+    @BindingAdapter({"onYouTubeInitializedListener"})
+    public static void setOnYouTubeInitializedListener(YouTubePlayerView youTubeView,
+                                                       YouTubePlayer.OnInitializedListener listener) {
+        if (listener != null) {
+            youTubeView.initialize(BuildConfig.YOUTUBE_API_KEY, listener);
+        }
     }
 }
