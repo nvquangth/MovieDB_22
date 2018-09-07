@@ -18,4 +18,12 @@ public final class StringUtil {
                 .append(path)
                 .toString();
     }
+
+    public static String genString(String...strings) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < strings.length; i++) {
+            builder.append(strings[i]);
+        }
+        return builder.toString();
+    }
 }

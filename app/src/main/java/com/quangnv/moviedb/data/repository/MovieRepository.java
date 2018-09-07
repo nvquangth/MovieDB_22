@@ -34,28 +34,28 @@ public class MovieRepository implements MovieDataSource.LocalDataSource,
     }
 
     @Override
-    public void saveMovie(Movie movie) {
-
+    public void addMovie(Movie movie) {
+        mLocalDataSource.addMovie(movie);
     }
 
     @Override
-    public void deleteMovie(Movie movie) {
-
+    public void removeMovie(Movie movie) {
+        mLocalDataSource.removeMovie(movie);
     }
 
     @Override
-    public void deleteAllMovies() {
-
+    public boolean isExistMovie(Movie movie) {
+        return mLocalDataSource.isExistMovie(movie);
     }
 
     @Override
     public List<Movie> getMovies() {
-        return null;
+        return mLocalDataSource.getMovies();
     }
 
     @Override
     public Movie getMovie(int movieId) {
-        return null;
+        return mLocalDataSource.getMovie(movieId);
     }
 
     @Override
