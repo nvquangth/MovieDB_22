@@ -8,6 +8,10 @@ import com.quangnv.moviedb.util.Constants;
 
 public final class StringUtil {
 
+    public static boolean isEmpty(String str) {
+        return str == null || str.isEmpty() || str.trim().length() == 0;
+    }
+
     public static String genUrlImage(String path) {
         return new StringBuilder()
                 .append(Constants.BASE_URL_IMAGE)

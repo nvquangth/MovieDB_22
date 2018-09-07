@@ -7,8 +7,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
@@ -83,5 +85,11 @@ public final class BindingUtil {
         if (listener != null) {
             youTubeView.initialize(BuildConfig.YOUTUBE_API_KEY, listener);
         }
+    }
+
+    @BindingAdapter({"onEditorActionListener"})
+    public static void setOnEditorActionListener(EditText editText,
+                                                 TextView.OnEditorActionListener listener) {
+        editText.setOnEditorActionListener(listener);
     }
 }

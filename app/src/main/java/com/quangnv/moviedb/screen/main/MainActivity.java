@@ -9,16 +9,18 @@ import android.support.v7.app.AppCompatActivity;
 import com.quangnv.moviedb.R;
 import com.quangnv.moviedb.data.model.Movie;
 import com.quangnv.moviedb.databinding.ActivityMainBinding;
+import com.quangnv.moviedb.screen.ActionSearchNavigator;
 import com.quangnv.moviedb.screen.ItemMovieNavigator;
 import com.quangnv.moviedb.screen.ToolbarNavigator;
 import com.quangnv.moviedb.screen.genre.GenreNavigator;
 import com.quangnv.moviedb.screen.movie.MovieNavigator;
 import com.quangnv.moviedb.screen.moviedetail.MovieDetailActivity;
+import com.quangnv.moviedb.screen.search.SearchActivity;
 
 public class MainActivity extends AppCompatActivity implements MovieNavigator, ItemMovieNavigator,
-        ToolbarNavigator, GenreNavigator {
+        ToolbarNavigator, GenreNavigator, ActionSearchNavigator {
 
-    public static final String EXTRA_MOVIE = "EXTRA_MOVIE";
+    public static final String EXTRA_MOVIE = "com.quangnv.moviedb.extras.EXTRA_MOVIE";
     private MainViewModel mViewModel;
 
     @Override
@@ -45,5 +47,11 @@ public class MainActivity extends AppCompatActivity implements MovieNavigator, I
     @Override
     public void onNavigationClick() {
         onBackPressed();
+    }
+
+    @Override
+    public void onSearchClick() {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
     }
 }
