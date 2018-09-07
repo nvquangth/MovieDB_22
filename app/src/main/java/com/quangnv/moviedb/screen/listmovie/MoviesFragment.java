@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.quangnv.moviedb.R;
 import com.quangnv.moviedb.data.repository.MovieRepository;
+import com.quangnv.moviedb.data.source.local.MovieLocalDataSource;
 import com.quangnv.moviedb.data.source.remote.MovieRemoteDataSource;
 import com.quangnv.moviedb.databinding.FragmentListMovieBinding;
 import com.quangnv.moviedb.screen.BaseFragment;
@@ -49,7 +50,7 @@ public abstract class MoviesFragment extends BaseFragment {
                              @Nullable Bundle savedInstanceState) {
         FragmentListMovieBinding binding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_list_movie, container, false);
-        mRepository = MovieRepository.getInstance(null,
+        mRepository = MovieRepository.getInstance(MovieLocalDataSource.getInstance(getContext()),
                 MovieRemoteDataSource.getInstance(getContext()));
         mAdapter = new MovieAdapter(getContext());
         mViewModel = initViewModel(getContext(), mRepository, mAdapter);

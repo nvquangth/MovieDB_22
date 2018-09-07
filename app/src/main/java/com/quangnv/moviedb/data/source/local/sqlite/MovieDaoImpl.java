@@ -47,7 +47,7 @@ public class MovieDaoImpl implements MovieDao {
                 null,
                 null
         );
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             movie = genMovie(cursor);
         }

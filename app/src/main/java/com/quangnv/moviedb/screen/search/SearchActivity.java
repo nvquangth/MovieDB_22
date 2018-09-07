@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.quangnv.moviedb.R;
 import com.quangnv.moviedb.data.model.Movie;
 import com.quangnv.moviedb.data.repository.MovieRepository;
+import com.quangnv.moviedb.data.source.local.MovieLocalDataSource;
 import com.quangnv.moviedb.data.source.remote.MovieRemoteDataSource;
 import com.quangnv.moviedb.databinding.ActivitySearchBinding;
 import com.quangnv.moviedb.screen.ItemMovieNavigator;
@@ -26,9 +27,11 @@ public class SearchActivity extends AppCompatActivity implements ItemMovieNaviga
         super.onCreate(savedInstanceState);
         ActivitySearchBinding binding =
                 DataBindingUtil.setContentView(this, R.layout.activity_search);
-        MovieRepository repository = MovieRepository.getInstance(null,
+        MovieRepository repository = MovieRepository.getInstance(
+                MovieLocalDataSource.getInstance(this),
                 MovieRemoteDataSource.getInstance(this));
         MovieAdapter adapter = new MovieAdapter(this);
+        adapter.setRepository(repository);
         mViewModel = new SearchMovieViewModel(this, repository, adapter, this);
         mViewModel.setSchedulerProvider(SchedulerProvider.getInstance());
         binding.setViewModel(mViewModel);

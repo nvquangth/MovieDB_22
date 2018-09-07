@@ -31,6 +31,7 @@ public abstract class ListMovieViewModel extends BaseViewModel
         mRepository = repository;
         mMovieAdapter = adapter;
         adapter.setItemMovieListener(this);
+        mMovieAdapter.setRepository(repository);
     }
 
     @Override
