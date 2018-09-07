@@ -15,11 +15,11 @@ public interface MovieDataSource {
 
     interface LocalDataSource {
 
-        void saveMovie(Movie movie);
+        void addMovie(Movie movie);
 
-        void deleteMovie(Movie movie);
+        void removeMovie(Movie movie);
 
-        void deleteAllMovies();
+        boolean isExistMovie(Movie movie);
 
         List<Movie> getMovies();
 
