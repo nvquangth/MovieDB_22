@@ -5,6 +5,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
@@ -97,5 +98,21 @@ public final class BindingUtil {
     @BindingAdapter({"iconFavorite"})
     public static void setIcon(ImageButton imageButton, int resId) {
         imageButton.setImageResource(resId);
+    }
+
+    @BindingAdapter({"onRefreshListener"})
+    public static void setOnRefreshLayoutListener(SwipeRefreshLayout layout,
+                                                  SwipeRefreshLayout.OnRefreshListener listener) {
+        layout.setOnRefreshListener(listener);
+    }
+
+    @BindingAdapter({"refreshLayout"})
+    public static void setRefreshLayout(SwipeRefreshLayout layout, boolean isRefresh) {
+        layout.setRefreshing(isRefresh);
+    }
+
+    @BindingAdapter({"colorRefreshLayout"})
+    public static void setColorRefreshLayout(SwipeRefreshLayout layout, int color) {
+        layout.setColorSchemeResources(color);
     }
 }
