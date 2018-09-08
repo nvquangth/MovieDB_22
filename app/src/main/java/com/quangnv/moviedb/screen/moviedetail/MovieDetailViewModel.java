@@ -11,6 +11,7 @@ import com.quangnv.moviedb.data.model.Cast;
 import com.quangnv.moviedb.data.model.Movie;
 import com.quangnv.moviedb.data.model.MovieResult;
 import com.quangnv.moviedb.data.repository.MovieRepository;
+import com.quangnv.moviedb.screen.ActionReadMoreDesNavigator;
 import com.quangnv.moviedb.screen.BaseViewModel;
 import com.quangnv.moviedb.screen.listmovie.MovieAdapter;
 import com.quangnv.moviedb.util.rx.SchedulerProvider;
@@ -35,12 +36,14 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
     private SmallMovieAdapter mMovieAdapter;
     private int mPage = 1;
     private MovieAdapter.FavoriteListener mFavoriteListener;
+    private ActionReadMoreDesNavigator mReadMoreDesNavigator;
     public ObservableField<Movie> movieObservableField;
     public ObservableField<YouTubePlayer.OnInitializedListener> youTubeListener;
     public ObservableInt mResId = new ObservableInt();
 
     public MovieDetailViewModel(MovieRepository repository, Movie movie,
-                                MovieAdapter.FavoriteListener listener) {
+                                MovieAdapter.FavoriteListener listener,
+                                ActionReadMoreDesNavigator readMoreDesNavigator) {
         mRepository = repository;
         mMovie = movie;
         mCompositeDisposable = new CompositeDisposable();
@@ -49,6 +52,7 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
         youTubeListener = new ObservableField<>();
         mFavoriteListener = listener;
         initFavorite();
+        mReadMoreDesNavigator = readMoreDesNavigator;
     }
 
     @Override
@@ -71,6 +75,7 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
     }
 
     public void onReadMoreDesClick(View view) {
+        mReadMoreDesNavigator.onReadMoreDesClick(mMovie);
     }
 
     public void onReadMoreReviewClick(View view) {
@@ -141,6 +146,7 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
                 .subscribe(new Consumer<Movie>() {
                     @Override
                     public void accept(final Movie movie) throws Exception {
+                        mMovie = movie;
                         mCastAdapter.setCasts(movie.getCastResult().getCasts());
                         mReviewAdapter.setReviews(movie.getReviewResult().getReviews());
                         movieObservableField.set(movie);
@@ -148,7 +154,9 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
                             @Override
                             public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                                                 YouTubePlayer player, boolean b) {
-                                player.cueVideo(movie.getVideoResult().getVideos().get(0).getKey());
+                                if (!movie.getVideoResult().getVideos().isEmpty()) {
+                                    player.cueVideo(movie.getVideoResult().getVideos().get(0).getKey());
+                                }
                             }
 
                             @Override
