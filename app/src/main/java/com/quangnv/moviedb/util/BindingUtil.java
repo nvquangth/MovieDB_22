@@ -66,6 +66,14 @@ public final class BindingUtil {
                 .into(imageView);
     }
 
+    @BindingAdapter({"circleImageUrl"})
+    public static void setCircleImage(ImageView imageView, String url) {
+        GlideApp.with(imageView.getContext())
+                .load(StringUtil.genUrlImage(url))
+                .circleCrop()
+                .into(imageView);
+    }
+
     @BindingAdapter({"ratingBar"})
     public static void setRatingBar(RatingBar ratingBar, float rating) {
         ratingBar.setRating(rating);

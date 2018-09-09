@@ -15,6 +15,7 @@ import com.quangnv.moviedb.screen.ActionReadMoreDesNavigator;
 import com.quangnv.moviedb.screen.ActionReadMoreReviewNavigator;
 import com.quangnv.moviedb.screen.BaseViewModel;
 import com.quangnv.moviedb.screen.listmovie.MovieAdapter;
+import com.quangnv.moviedb.screen.ItemCastNavigator;
 import com.quangnv.moviedb.util.rx.SchedulerProvider;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -39,6 +40,7 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
     private MovieAdapter.FavoriteListener mFavoriteListener;
     private ActionReadMoreDesNavigator mReadMoreDesNavigator;
     private ActionReadMoreReviewNavigator mReadMoreReviewNavigator;
+    private ItemCastNavigator mItemCastNavigator;
     public ObservableField<Movie> movieObservableField;
     public ObservableField<YouTubePlayer.OnInitializedListener> youTubeListener;
     public ObservableInt mResId = new ObservableInt();
@@ -72,6 +74,7 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
 
     @Override
     public void onItemCastClick(Cast cast) {
+        mItemCastNavigator.onOpenCastDetail(cast);
     }
 
     @Override
@@ -142,6 +145,10 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
 
     public boolean checkFavorite(Movie movie) {
         return mRepository.isExistMovie(movie);
+    }
+
+    public void setItemCastNavigator(ItemCastNavigator navigator) {
+        mItemCastNavigator = navigator;
     }
 
     private void callApiGetMovieDetail(int movieId) {

@@ -3,11 +3,14 @@ package com.quangnv.moviedb.screen.moviedetail;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.quangnv.moviedb.R;
+import com.quangnv.moviedb.data.model.Cast;
 import com.quangnv.moviedb.data.model.Movie;
 import com.quangnv.moviedb.data.repository.MovieRepository;
 import com.quangnv.moviedb.data.source.local.MovieLocalDataSource;
@@ -15,6 +18,8 @@ import com.quangnv.moviedb.data.source.remote.MovieRemoteDataSource;
 import com.quangnv.moviedb.databinding.ActivityMovieDetailBinding;
 import com.quangnv.moviedb.screen.ActionReadMoreDesNavigator;
 import com.quangnv.moviedb.screen.ActionReadMoreReviewNavigator;
+import com.quangnv.moviedb.screen.ItemCastNavigator;
+import com.quangnv.moviedb.screen.cast.CastActivity;
 import com.quangnv.moviedb.screen.descriptiondetail.DescriptionDetailFragment;
 import com.quangnv.moviedb.screen.listmovie.MovieAdapter;
 import com.quangnv.moviedb.screen.main.MainActivity;
@@ -22,7 +27,7 @@ import com.quangnv.moviedb.screen.reviewdetail.ReviewDetailFragment;
 import com.quangnv.moviedb.util.rx.SchedulerProvider;
 
 public class MovieDetailActivity extends YouTubeBaseActivity implements ActionReadMoreDesNavigator,
-        ActionReadMoreReviewNavigator, MovieAdapter.FavoriteListener {
+        ActionReadMoreReviewNavigator, MovieAdapter.FavoriteListener, ItemCastNavigator {
 
     private static final String TAG_DIALOG_FRAGMENT_DES = "TAG_DIALOG_FRAGMENT_DES";
     private static final String TAG_DIALOG_FRAGMENT_REVIEW = "TAG_DIALOG_FRAGMENT_REVIEW";
@@ -48,6 +53,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements ActionRe
         mViewModel.setCastAdapter(castAdapter);
         mViewModel.setReviewAdapter(reviewAdapter);
         mViewModel.setMovieAdapter(movieAdapter);
+        mViewModel.setItemCastNavigator(this);
         mViewModel.onStart();
         mBinding.setViewModel(mViewModel);
     }
@@ -68,6 +74,10 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements ActionRe
         showReadMoreReview(movie);
     }
 
+    public void onOpenCastDetail(Cast cast) {
+        startActivity(getCastDetailIntent(this, cast));
+    }
+
     private Movie getMovie() {
         return (Movie) getIntent().getSerializableExtra(MainActivity.EXTRA_MOVIE);
     }
@@ -83,6 +93,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements ActionRe
         }
         mBinding.setViewModel(mViewModel);
     }
+
     private void showReadMoreDescription(Movie movie) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         Fragment prev = getFragmentManager().findFragmentByTag(TAG_DIALOG_FRAGMENT_DES);
@@ -92,6 +103,12 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements ActionRe
         transaction.addToBackStack(null);
         DialogFragment dialog = DescriptionDetailFragment.newInstance(movie);
         dialog.show(transaction, TAG_DIALOG_FRAGMENT_DES);
+    }
+
+    public static Intent getCastDetailIntent(Context context, Cast cast) {
+        Intent intent = new Intent(context, CastActivity.class);
+        intent.putExtra(CastActivity.EXTRA_CAST, cast);
+        return intent;
     }
 
     private void showReadMoreReview(Movie movie) {
