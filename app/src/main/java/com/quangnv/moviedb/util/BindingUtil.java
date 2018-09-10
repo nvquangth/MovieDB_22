@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.quangnv.moviedb.BuildConfig;
+import com.quangnv.moviedb.R;
 import com.quangnv.moviedb.util.common.StringUtil;
 
 /**
@@ -63,6 +64,7 @@ public final class BindingUtil {
     public static void setImage(ImageView imageView, String url) {
         GlideApp.with(imageView.getContext())
                 .load(StringUtil.genUrlImage(url))
+                .placeholder(R.drawable.image_default)
                 .into(imageView);
     }
 
@@ -70,6 +72,7 @@ public final class BindingUtil {
     public static void setCircleImage(ImageView imageView, String url) {
         GlideApp.with(imageView.getContext())
                 .load(StringUtil.genUrlImage(url))
+                .placeholder(R.drawable.image_default)
                 .circleCrop()
                 .into(imageView);
     }
