@@ -19,15 +19,18 @@ import com.quangnv.moviedb.databinding.ActivityMovieDetailBinding;
 import com.quangnv.moviedb.screen.ActionReadMoreDesNavigator;
 import com.quangnv.moviedb.screen.ActionReadMoreReviewNavigator;
 import com.quangnv.moviedb.screen.ItemCastNavigator;
+import com.quangnv.moviedb.screen.ItemMovieNavigator;
 import com.quangnv.moviedb.screen.cast.CastActivity;
 import com.quangnv.moviedb.screen.descriptiondetail.DescriptionDetailFragment;
 import com.quangnv.moviedb.screen.listmovie.MovieAdapter;
 import com.quangnv.moviedb.screen.main.MainActivity;
 import com.quangnv.moviedb.screen.reviewdetail.ReviewDetailFragment;
+import com.quangnv.moviedb.screen.search.SearchActivity;
 import com.quangnv.moviedb.util.rx.SchedulerProvider;
 
 public class MovieDetailActivity extends YouTubeBaseActivity implements ActionReadMoreDesNavigator,
-        ActionReadMoreReviewNavigator, MovieAdapter.FavoriteListener, ItemCastNavigator {
+        ActionReadMoreReviewNavigator, MovieAdapter.FavoriteListener, ItemCastNavigator,
+        ItemMovieNavigator {
 
     private static final String TAG_DIALOG_FRAGMENT_DES = "TAG_DIALOG_FRAGMENT_DES";
     private static final String TAG_DIALOG_FRAGMENT_REVIEW = "TAG_DIALOG_FRAGMENT_REVIEW";
@@ -39,23 +42,21 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements ActionRe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding =
-                DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
-        mRepository = MovieRepository.getInstance(
-                MovieLocalDataSource.getInstance(this),
-                MovieRemoteDataSource.getInstance(this));
         mMovie = getMovie();
-        CastAdapter castAdapter = new CastAdapter(this);
-        ReviewAdapter reviewAdapter = new ReviewAdapter(this);
-        SmallMovieAdapter movieAdapter = new SmallMovieAdapter(this);
-        mViewModel = new MovieDetailViewModel(mRepository, mMovie, this, this, this);
-        mViewModel.setSchedulerProvider(SchedulerProvider.getInstance());
-        mViewModel.setCastAdapter(castAdapter);
-        mViewModel.setReviewAdapter(reviewAdapter);
-        mViewModel.setMovieAdapter(movieAdapter);
-        mViewModel.setItemCastNavigator(this);
-        mViewModel.onStart();
-        mBinding.setViewModel(mViewModel);
+        bindData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        bindData();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mMovie = (Movie) intent.getSerializableExtra(MainActivity.EXTRA_MOVIE);
+        bindData();
     }
 
     @Override
@@ -74,6 +75,12 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements ActionRe
         showReadMoreReview(movie);
     }
 
+    public void onOpenMovieDetail(Movie movie) {
+        mViewModel.onStop();
+        startActivity(SearchActivity.getMovieDetailIntent(this, movie));
+    }
+
+    @Override
     public void onOpenCastDetail(Cast cast) {
         startActivity(getCastDetailIntent(this, cast));
     }
@@ -120,5 +127,25 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements ActionRe
         transaction.addToBackStack(null);
         DialogFragment dialog = ReviewDetailFragment.newInstance(movie);
         dialog.show(transaction, TAG_DIALOG_FRAGMENT_REVIEW);
+    }
+
+    private void bindData() {
+        mBinding =
+                DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
+        mRepository = MovieRepository.getInstance(
+                MovieLocalDataSource.getInstance(this),
+                MovieRemoteDataSource.getInstance(this));
+        CastAdapter castAdapter = new CastAdapter(this);
+        ReviewAdapter reviewAdapter = new ReviewAdapter(this);
+        SmallMovieAdapter movieAdapter = new SmallMovieAdapter(this);
+        mViewModel = new MovieDetailViewModel(mRepository, mMovie, this, this, this);
+        mViewModel.setSchedulerProvider(SchedulerProvider.getInstance());
+        mViewModel.setCastAdapter(castAdapter);
+        mViewModel.setReviewAdapter(reviewAdapter);
+        mViewModel.setMovieAdapter(movieAdapter);
+        mViewModel.setItemCastNavigator(this);
+        mViewModel.setItemMovieNavigator(this);
+        mViewModel.onStart();
+        mBinding.setViewModel(mViewModel);
     }
 }
