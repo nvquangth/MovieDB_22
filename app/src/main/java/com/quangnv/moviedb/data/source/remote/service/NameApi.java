@@ -1,5 +1,6 @@
 package com.quangnv.moviedb.data.source.remote.service;
 
+import com.quangnv.moviedb.data.model.Cast;
 import com.quangnv.moviedb.data.model.GenreResult;
 import com.quangnv.moviedb.data.model.Movie;
 import com.quangnv.moviedb.data.model.MovieResult;
@@ -60,4 +61,7 @@ public interface NameApi {
 
     @GET("/3/genre/movie/list")
     Observable<GenreResult> getGenres(@Query("api_key") String apiKey);
+
+    @GET("/3/person/{person_id}")
+    Observable<Cast> getCast(@Path("person_id") int personId, @Query("api_key") String apiKey);
 }
