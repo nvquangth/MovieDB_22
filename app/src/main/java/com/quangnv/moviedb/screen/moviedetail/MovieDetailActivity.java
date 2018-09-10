@@ -14,15 +14,18 @@ import com.quangnv.moviedb.data.source.local.MovieLocalDataSource;
 import com.quangnv.moviedb.data.source.remote.MovieRemoteDataSource;
 import com.quangnv.moviedb.databinding.ActivityMovieDetailBinding;
 import com.quangnv.moviedb.screen.ActionReadMoreDesNavigator;
+import com.quangnv.moviedb.screen.ActionReadMoreReviewNavigator;
 import com.quangnv.moviedb.screen.descriptiondetail.DescriptionDetailFragment;
 import com.quangnv.moviedb.screen.listmovie.MovieAdapter;
 import com.quangnv.moviedb.screen.main.MainActivity;
+import com.quangnv.moviedb.screen.reviewdetail.ReviewDetailFragment;
 import com.quangnv.moviedb.util.rx.SchedulerProvider;
 
-public class MovieDetailActivity extends YouTubeBaseActivity implements MovieAdapter.FavoriteListener,
-        ActionReadMoreDesNavigator {
+public class MovieDetailActivity extends YouTubeBaseActivity implements ActionReadMoreDesNavigator,
+        ActionReadMoreReviewNavigator, MovieAdapter.FavoriteListener {
 
     private static final String TAG_DIALOG_FRAGMENT_DES = "TAG_DIALOG_FRAGMENT_DES";
+    private static final String TAG_DIALOG_FRAGMENT_REVIEW = "TAG_DIALOG_FRAGMENT_REVIEW";
     private MovieDetailViewModel mViewModel;
     private MovieRepository mRepository;
     private ActivityMovieDetailBinding mBinding;
@@ -40,7 +43,7 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieAda
         CastAdapter castAdapter = new CastAdapter(this);
         ReviewAdapter reviewAdapter = new ReviewAdapter(this);
         SmallMovieAdapter movieAdapter = new SmallMovieAdapter(this);
-        mViewModel = new MovieDetailViewModel(mRepository, mMovie, this, this);
+        mViewModel = new MovieDetailViewModel(mRepository, mMovie, this, this, this);
         mViewModel.setSchedulerProvider(SchedulerProvider.getInstance());
         mViewModel.setCastAdapter(castAdapter);
         mViewModel.setReviewAdapter(reviewAdapter);
@@ -58,6 +61,11 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieAda
     @Override
     public void onReadMoreDesClick(Movie movie) {
         showReadMoreDescription(movie);
+    }
+
+    @Override
+    public void onReadMoreReviewClick(Movie movie) {
+        showReadMoreReview(movie);
     }
 
     private Movie getMovie() {
@@ -84,5 +92,16 @@ public class MovieDetailActivity extends YouTubeBaseActivity implements MovieAda
         transaction.addToBackStack(null);
         DialogFragment dialog = DescriptionDetailFragment.newInstance(movie);
         dialog.show(transaction, TAG_DIALOG_FRAGMENT_DES);
+    }
+
+    private void showReadMoreReview(Movie movie) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag(TAG_DIALOG_FRAGMENT_REVIEW);
+        if (prev != null) {
+            transaction.remove(prev);
+        }
+        transaction.addToBackStack(null);
+        DialogFragment dialog = ReviewDetailFragment.newInstance(movie);
+        dialog.show(transaction, TAG_DIALOG_FRAGMENT_REVIEW);
     }
 }

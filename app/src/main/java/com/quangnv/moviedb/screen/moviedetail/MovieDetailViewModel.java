@@ -12,6 +12,7 @@ import com.quangnv.moviedb.data.model.Movie;
 import com.quangnv.moviedb.data.model.MovieResult;
 import com.quangnv.moviedb.data.repository.MovieRepository;
 import com.quangnv.moviedb.screen.ActionReadMoreDesNavigator;
+import com.quangnv.moviedb.screen.ActionReadMoreReviewNavigator;
 import com.quangnv.moviedb.screen.BaseViewModel;
 import com.quangnv.moviedb.screen.listmovie.MovieAdapter;
 import com.quangnv.moviedb.util.rx.SchedulerProvider;
@@ -37,13 +38,15 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
     private int mPage = 1;
     private MovieAdapter.FavoriteListener mFavoriteListener;
     private ActionReadMoreDesNavigator mReadMoreDesNavigator;
+    private ActionReadMoreReviewNavigator mReadMoreReviewNavigator;
     public ObservableField<Movie> movieObservableField;
     public ObservableField<YouTubePlayer.OnInitializedListener> youTubeListener;
     public ObservableInt mResId = new ObservableInt();
 
     public MovieDetailViewModel(MovieRepository repository, Movie movie,
                                 MovieAdapter.FavoriteListener listener,
-                                ActionReadMoreDesNavigator readMoreDesNavigator) {
+                                ActionReadMoreDesNavigator readMoreDesNavigator,
+                                ActionReadMoreReviewNavigator readMoreReviewNavigator) {
         mRepository = repository;
         mMovie = movie;
         mCompositeDisposable = new CompositeDisposable();
@@ -53,6 +56,7 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
         mFavoriteListener = listener;
         initFavorite();
         mReadMoreDesNavigator = readMoreDesNavigator;
+        mReadMoreReviewNavigator = readMoreReviewNavigator;
     }
 
     @Override
@@ -79,6 +83,7 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
     }
 
     public void onReadMoreReviewClick(View view) {
+        mReadMoreReviewNavigator.onReadMoreReviewClick(mMovie);
     }
 
     public void setSchedulerProvider(SchedulerProvider provider) {
