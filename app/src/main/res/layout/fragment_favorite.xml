@@ -6,8 +6,9 @@
 
         <variable
             name="viewModel"
-            type="com.quangnv.moviedb.screen.listmovie.ListMovieViewModel" />
+            type="com.quangnv.moviedb.screen.favorite.FavoriteViewModel" />
     </data>
+
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -24,8 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:iconToolbar="@{viewModel.iconToolbar}"
-            app:titleToolbar="@{viewModel.titleToolbar}"/>
+            app:toolbarTitle="@{viewModel.titleToolbar}" />
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="0dp"
@@ -48,3 +48,4 @@
         </android.support.v4.widget.SwipeRefreshLayout>
     </android.support.constraint.ConstraintLayout>
 </layout>
+
