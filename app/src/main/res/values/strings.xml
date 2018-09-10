@@ -19,4 +19,10 @@
     <string name="title_read_more">Read more</string>
     <string name="hint_search_movie">Enter movie\'s title</string>
     <string name="noti_data_not_available">Data not available</string>
+    <string name="title_companies">Companies:</string>
+    <string name="title_rating">Rating:</string>
+    <string name="title_release_date">Release date:</string>
+    <string name="title_countries">Countries:</string>
+    <string name="title_genres">Genres:</string>
+    <string name="title_languages">Languages:</string>
 </resources>
