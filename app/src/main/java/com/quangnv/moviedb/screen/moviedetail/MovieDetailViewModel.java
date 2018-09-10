@@ -14,6 +14,7 @@ import com.quangnv.moviedb.data.repository.MovieRepository;
 import com.quangnv.moviedb.screen.ActionReadMoreDesNavigator;
 import com.quangnv.moviedb.screen.ActionReadMoreReviewNavigator;
 import com.quangnv.moviedb.screen.BaseViewModel;
+import com.quangnv.moviedb.screen.ItemMovieNavigator;
 import com.quangnv.moviedb.screen.listmovie.MovieAdapter;
 import com.quangnv.moviedb.screen.ItemCastNavigator;
 import com.quangnv.moviedb.util.rx.SchedulerProvider;
@@ -41,6 +42,8 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
     private ActionReadMoreDesNavigator mReadMoreDesNavigator;
     private ActionReadMoreReviewNavigator mReadMoreReviewNavigator;
     private ItemCastNavigator mItemCastNavigator;
+    private ItemMovieNavigator mItemMovieNavigator;
+    private YouTubePlayer mYouTubePlayer;
     public ObservableField<Movie> movieObservableField;
     public ObservableField<YouTubePlayer.OnInitializedListener> youTubeListener;
     public ObservableInt mResId = new ObservableInt();
@@ -69,6 +72,9 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
 
     @Override
     protected void onStop() {
+        if (mYouTubePlayer != null) {
+            mYouTubePlayer.release();
+        }
         mCompositeDisposable.clear();
     }
 
@@ -79,6 +85,7 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
 
     @Override
     public void onItemMovieClick(Movie movie) {
+        mItemMovieNavigator.onOpenMovieDetail(movie);
     }
 
     public void onReadMoreDesClick(View view) {
@@ -151,6 +158,10 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
         mItemCastNavigator = navigator;
     }
 
+    public void setItemMovieNavigator(ItemMovieNavigator navigator) {
+        mItemMovieNavigator = navigator;
+    }
+
     private void callApiGetMovieDetail(int movieId) {
         Disposable disposable = mRepository.getMovieDetail(movieId)
                 .subscribeOn(mSchedulerProvider.io())
@@ -166,6 +177,7 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
                             @Override
                             public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                                                 YouTubePlayer player, boolean b) {
+                                mYouTubePlayer = player;
                                 if (!movie.getVideoResult().getVideos().isEmpty()) {
                                     player.cueVideo(movie.getVideoResult().getVideos().get(0).getKey());
                                 }

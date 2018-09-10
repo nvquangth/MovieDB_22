@@ -25,7 +25,9 @@
         </activity>
         <activity
             android:name=".screen.moviedetail.MovieDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".screen.search.SearchActivity"
             android:screenOrientation="portrait"
