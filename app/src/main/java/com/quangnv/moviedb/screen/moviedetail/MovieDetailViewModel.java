@@ -1,15 +1,18 @@
 package com.quangnv.moviedb.screen.moviedetail;
 
 import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.view.View;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
+import com.quangnv.moviedb.R;
 import com.quangnv.moviedb.data.model.Cast;
 import com.quangnv.moviedb.data.model.Movie;
 import com.quangnv.moviedb.data.model.MovieResult;
 import com.quangnv.moviedb.data.repository.MovieRepository;
 import com.quangnv.moviedb.screen.BaseViewModel;
+import com.quangnv.moviedb.screen.listmovie.MovieAdapter;
 import com.quangnv.moviedb.util.rx.SchedulerProvider;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -31,16 +34,21 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
     private ReviewAdapter mReviewAdapter;
     private SmallMovieAdapter mMovieAdapter;
     private int mPage = 1;
+    private MovieAdapter.FavoriteListener mFavoriteListener;
     public ObservableField<Movie> movieObservableField;
     public ObservableField<YouTubePlayer.OnInitializedListener> youTubeListener;
+    public ObservableInt mResId = new ObservableInt();
 
-    public MovieDetailViewModel(MovieRepository repository, Movie movie) {
+    public MovieDetailViewModel(MovieRepository repository, Movie movie,
+                                MovieAdapter.FavoriteListener listener) {
         mRepository = repository;
         mMovie = movie;
         mCompositeDisposable = new CompositeDisposable();
         movieObservableField = new ObservableField<>();
         movieObservableField.set(movie);
         youTubeListener = new ObservableField<>();
+        mFavoriteListener = listener;
+        initFavorite();
     }
 
     @Override
@@ -96,6 +104,34 @@ public class MovieDetailViewModel extends BaseViewModel implements CastAdapter.I
 
     public void setReviewAdapter(ReviewAdapter reviewAdapter) {
         mReviewAdapter = reviewAdapter;
+    }
+
+    public void onFavoriteClick(View view) {
+        mFavoriteListener.onFavoriteClick(mMovie);
+    }
+
+    public int getResId() {
+        return mResId.get();
+    }
+
+    private void initFavorite() {
+        if (checkFavorite(mMovie)) {
+            updateResId(true);
+        } else {
+            updateResId(false);
+        }
+    }
+
+    public void updateResId(boolean isFavorite) {
+        if (isFavorite) {
+            mResId.set(R.drawable.ic_bookmark_blue_24dp);
+        } else {
+            mResId.set(R.drawable.ic_bookmark_border_blue_24dp);
+        }
+    }
+
+    public boolean checkFavorite(Movie movie) {
+        return mRepository.isExistMovie(movie);
     }
 
     private void callApiGetMovieDetail(int movieId) {

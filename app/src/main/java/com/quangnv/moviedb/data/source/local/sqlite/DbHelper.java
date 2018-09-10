@@ -20,7 +20,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String INTEGER_TYPE = " INTEGER";
     private static final String REAL_TYPE = " REAL";
     private static final String COMA_SEP = ",";
-    private static final String CREATE_TABLE = "CREATE_TABLE ";
+    private static final String CREATE_TABLE = "CREATE TABLE ";
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS ";
     private static final String OPEN_BRACKET = " (";
     private static final String CLOSE_BRACKET = " )";

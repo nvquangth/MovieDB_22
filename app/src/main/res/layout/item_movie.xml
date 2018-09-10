@@ -35,8 +35,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:padding="@dimen/dp_8"
-                android:src="@drawable/ic_bookmark_border_blue_24dp"
+                android:onClick="@{viewModel::onFavoriteClick}"
+                android:padding="@dimen/dp_16"
+                app:iconFavorite="@{viewModel.resId}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

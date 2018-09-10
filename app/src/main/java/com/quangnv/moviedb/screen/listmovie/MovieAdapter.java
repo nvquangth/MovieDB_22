@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.quangnv.moviedb.R;
 import com.quangnv.moviedb.data.model.Movie;
+import com.quangnv.moviedb.data.repository.MovieRepository;
 import com.quangnv.moviedb.databinding.ItemMovieBinding;
 
 import java.util.ArrayList;
@@ -20,13 +21,16 @@ import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ItemViewHolder> {
 
+    private static List<Movie> mFavoriteMovies;
     private List<Movie> mMovies;
     private LayoutInflater mInflater;
     private ItemMovieListener mItemMovieListener;
+    private MovieRepository mRepository;
 
     public MovieAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
         mMovies = new ArrayList<>();
+        mFavoriteMovies = new ArrayList<>();
     }
 
     @NonNull
@@ -34,7 +38,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ItemViewHold
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemMovieBinding binding =
                 DataBindingUtil.inflate(mInflater, R.layout.item_movie, parent, false);
-        return new ItemViewHolder(binding, mItemMovieListener);
+        return new ItemViewHolder(binding, mItemMovieListener, mRepository);
     }
 
     @Override
@@ -57,25 +61,54 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ItemViewHold
         mItemMovieListener = listener;
     }
 
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+    public void setRepository(MovieRepository repository) {
+        mRepository = repository;
+    }
+
+    public static class ItemViewHolder extends RecyclerView.ViewHolder implements FavoriteListener {
 
         private ItemMovieBinding mBinding;
         private ItemMovieViewModel mViewModel;
+        private FavoriteListener mFavoriteListener;
 
-        public ItemViewHolder(ItemMovieBinding binding, ItemMovieListener listener) {
+        public ItemViewHolder(ItemMovieBinding binding, ItemMovieListener listener,
+                              MovieRepository repository) {
             super(binding.getRoot());
             mBinding = binding;
-            mViewModel = new ItemMovieViewModel(listener);
+            mFavoriteListener = this;
+            mViewModel = new ItemMovieViewModel(repository, listener, mFavoriteListener);
             mBinding.setViewModel(mViewModel);
+        }
+
+        @Override
+        public void onFavoriteClick(Movie movie) {
+            if (!mViewModel.checkFavorite(movie)) {
+                mViewModel.setIconFavorite();
+                mViewModel.addFavorite(movie);
+                mFavoriteMovies.add(movie);
+            } else {
+                mViewModel.removeIconFavorite();
+                mViewModel.removeFavorite(movie);
+                mFavoriteMovies.remove(movie);
+            }
         }
 
         private void bind(Movie movie) {
             mViewModel.setMovie(movie);
+            if (mFavoriteMovies.contains(movie) || mViewModel.checkFavorite(movie)) {
+                mViewModel.setIconFavorite();
+            } else {
+                mViewModel.removeIconFavorite();
+            }
             mBinding.executePendingBindings();
         }
     }
 
     public interface ItemMovieListener {
         void onItemMovieClick(Movie movie);
+    }
+
+    public interface FavoriteListener {
+        void onFavoriteClick(Movie movie);
     }
 }
