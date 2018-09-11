@@ -5,11 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -56,8 +52,6 @@ public class FavoriteFragment extends BaseFragment {
         adapter.setRepository(repository);
         mViewModel = new FavoriteViewModel(getContext(), repository, adapter, mItemMovieNavigator);
         mViewModel.onStart();
-        setHasOptionsMenu(true);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(binding.toolbar);
         binding.setViewModel(mViewModel);
         View view = binding.getRoot();
         return view;
@@ -68,22 +62,6 @@ public class FavoriteFragment extends BaseFragment {
         mItemMovieNavigator = null;
         mSearchNavigator = null;
         super.onDestroy();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_search, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.navigation_search:
-                mSearchNavigator.onSearchClick();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public static FavoriteFragment newInstance() {
